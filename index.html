@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прості форми</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-block {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        input, select, textarea, button {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Прості HTML форми</h1>
+
+    <div class="form-block">
+        <h3>Контактна інформація</h3>
+        <form id="contactForm">
+            <input type="text" id="name" placeholder="Ваше ім'я" required>
+            <input type="email" id="email" placeholder="Ваш email" required>
+            <input type="tel" id="phone" placeholder="Ваш телефон">
+            <button type="submit">Надіслати</button>
+        </form>
+        <div class="result" id="contactResult"></div>
+    </div>
+
+    <div class="form-block">
+        <h3>Калькулятор</h3>
+        <form id="calcForm">
+            <input type="number" id="num1" placeholder="Перше число" required>
+            <input type="number" id="num2" placeholder="Друге число" required>
+            <select id="operation">
+                <option value="+">Додавання</option>
+                <option value="-">Віднімання</option>
+                <option value="*">Множення</option>
+                <option value="/">Ділення</option>
+            </select>
+            <button type="submit">Обчислити</button>
+        </form>
+        <div class="result" id="calcResult"></div>
+    </div>
+
+    <div class="form-block">
+        <h3>Залишити відгук</h3>
+        <form id="feedbackForm">
+            <input type="text" id="userName" placeholder="Ваше ім'я" required>
+            <select id="rating">
+                <option value="5">Відмінно ⭐⭐⭐⭐⭐</option>
+                <option value="4">Добре ⭐⭐⭐⭐</option>
+                <option value="3">Нормально ⭐⭐⭐</option>
+                <option value="2">Погано ⭐⭐</option>
+                <option value="1">Жахливо ⭐</option>
+            </select>
+            <textarea id="comment" placeholder="Ваш коментар" rows="3"></textarea>
+            <button type="submit">Відправити відгук</button>
+        </form>
+        <div class="result" id="feedbackResult"></div>
+    </div>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            
+            document.getElementById('contactResult').innerHTML = `
+                <strong>Дякуємо, ${name}!</strong><br>
+                Ми зв'яжемося з вами через email: ${email}
+                ${phone ? '<br>або за телефоном: ' + phone : ''}
+            `;
+            this.reset();
+        });
+
+        document.getElementById('calcForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            const operation = document.getElementById('operation').value;
+            
+            let result;
+            switch(operation) {
+                case '+': result = num1 + num2; break;
+                case '-': result = num1 - num2; break;
+                case '*': result = num1 * num2; break;
+                case '/': result = num2 !== 0 ? num1 / num2 : 'Помилка: ділення на нуль!'; break;
+            }
+            
+            document.getElementById('calcResult').innerHTML = `
+                <strong>Результат:</strong> ${num1} ${operation} ${num2} = ${result}
+            `;
+        });
+
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('userName').value;
+            const rating = document.getElementById('rating').value;
+            const comment = document.getElementById('comment').value;
+            
+            let stars = '⭐'.repeat(rating);
+            
+            document.getElementById('feedbackResult').innerHTML = `
+                <strong>Дякуємо за відгук, ${name}!</strong><br>
+                Ваша оцінка: ${stars}<br>
+                ${comment ? 'Ваш коментар: ' + comment : ''}
+            `;
+            this.reset();
+        });
+    </script>
+</body>
+</html>
